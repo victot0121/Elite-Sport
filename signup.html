@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/signup.css">
+    <title>Elite sports signup page</title>
+    <link rel='icon' type='favicon' href="./images/LOGO.png">
+</head>
+<body>
+  <div class="parent">
+    <div class="child__one">
+      <div>
+           <h3>Register for Elite 
+          School Cup
+        </h3>
+      </div>
+    </div>
+
+    <div class="child__second">
+      <div>
+        <img src="/images/LOGO.png" alt="">
+      </div>
+      <div>
+        <form>
+          <label>Full Name</label>
+          <input type="text" name="" id="nameInput" placeholder="your full name">
+          <label>Email</label>
+          <input type="email" name="" id="emailInput" placeholder="your email address">
+          <label>username</label>
+          <input type="text" name="" id="userInput" placeholder="username">
+          <label>password</label>
+          <input type="password" name="" id="passwordInput" placeholder="your password">
+
+          <div class="content">
+            <h5> <a href="signin.html">I have an account  ?</a> </h5>
+          </div>
+          <button id="sub_btn" type="submit">
+            submit
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script type="module">
+
+    // Import the functions you need from the SDKs you need
+  
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+  
+    const firebaseConfig = {
+  
+      apiKey: "AIzaSyDi-YelprwhwCnuinvvCQQ2JL-nBczZX3c",
+  
+      authDomain: "elite-sports-86169.firebaseapp.com",
+  
+      databaseURL: "https://elite-sports-86169-default-rtdb.firebaseio.com",
+  
+      projectId: "elite-sports-86169",
+  
+      storageBucket: "elite-sports-86169.appspot.com",
+  
+      messagingSenderId: "900369999477",
+  
+      appId: "1:900369999477:web:6816259769d50bec56fa3c"
+  
+    };
+  
+  
+    // Initialize Firebase
+  
+    const app = initializeApp(firebaseConfig);
+
+    import  {getDatabase, ref, set, child, get}
+    from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+
+    const db = getDatabase();
+
+  </script>
+  <script>
+const name = document.getElementById("nameInput");
+const email = document.getElementById("emailInput");
+const userInput = document.getElementById("userInput");
+const pass = document.getElementById("passwordInput");
+const sub_btn = document.getElementById("sub_btn");
+
+
+function Validation(){
+
+    let nameregex = /^[a-zA-Z\s]+$/;
+    let emailregex = /^[a-zA-Z0-9]+@(gmail|yahoo|outlook)\.com$/;
+    let userregex = /^([a-z0-9]{5,})$/;
+
+    // /^[a-zA-Z0-9]{5,}$/
+//    /[a-zA-Z]/g
+// /^[a-z,',-]+(\s)[a-z,',-]+$/i
+// /^[a-z]+\s[a-z ]+$/i
+//  /^([\w]{3,})+\s+([\w\s]{3,})+$/i
+// ^([a-zA-Zà-úÀ-Ú]{2,})+\s+([a-zA-Zà-úÀ-Ú\s]{2,})+$
+
+
+// /^[a-zA-Z0-9]+$/
+    
+    if(!nameregex.test(name.value)) {
+        alert("the name should only contain alphabets");
+        return false;
+    }
+
+    if(!emailregex.test(email.value)) {
+        alert("enter a valid emal");
+        return false;
+    }
+    if(!userregex.test(userInput.value)) {
+        alert("username can only be alpanumber\nuser must alease 5 character\n user cannot contain space");
+        return false;
+    }
+    return true;
+}
+
+
+function RegisterUser(){
+    if(!Validation()){
+        return;
+    };
+    const dbRef = ref(db);
+
+    get(child(dbRef, "UserList/"+ username.value)).then((snapshot) => {
+       if(snapshot.exists()){
+        alert("account Already Exist!");
+       } 
+       else{
+        set(ref(db, "UserList/"+ username.value), {
+            fullname: name.value,
+            email: email.value,
+            username: username.value,
+            password: pass.value
+
+        })
+        .then(()=>{
+            alert("user added sucessfully");
+        })
+        .catch((error)=>{
+            alert("errors"+ error);
+        })
+       }
+    });
+}
+
+
+
+sub_btn.addEventListener('click', (event)=>{
+  RegisterUser,
+  event.preventDefault()
+
+});
+
+
+  </script>
+</body>
+</html>
